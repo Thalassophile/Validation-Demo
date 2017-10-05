@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -22,7 +23,7 @@ namespace FormValidatorDemo.View
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class OrganizedAndDynamic : Page
+    public sealed partial class OrganizedAndDynamic : Page, INotifyPropertyChanged
     {
         public OrganizedAndDynamic()
         {
@@ -45,16 +46,59 @@ namespace FormValidatorDemo.View
             }
         }
 
+        private bool isValidateEnabled;
+        public bool IsValidateEnabled
+        {
+            get { return isValidateEnabled; }
+            set { isValidateEnabled = value; RaisePropertyChanged(nameof(IsValidateEnabled)); }
+        }
+
+
+
         private async void ValidateContent(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            //just check for 1 invalid field as only 1 is enough to break the flow. 
-            var invalidField = FormFields.FirstOrDefault(x => x.IsError);
-            if (invalidField != null)
+            if (!AllFieldsValidated())
             {
                 //handle error here!!
                 MessageDialog messageDialog = new MessageDialog("Please check the above values for invalid data");
                 await messageDialog.ShowAsync();
             }
+            else
+            {
+                //your code when validation is successfull
+            }
         }
+
+        private bool AllFieldsValidated()
+        {
+            var itemSource = FormListView.ItemsSource as IEnumerable<ComponentModel.IFormControl>;
+            if (itemSource != null)
+            {
+                //just check for 1 invalid field as only 1 is enough to break the flow. 
+                var invalidField = itemSource.FirstOrDefault(x => x.IsError || !x.ValueInitialized);
+                if (invalidField != null)
+                    return false;
+            }
+            return true;
+        }
+
+        private void contentDataFinalized(object sender, EventArgs e)
+        {
+            if (AllFieldsValidated())
+            {
+                IsValidateEnabled = true;
+                return;
+            }
+            IsValidateEnabled = false;
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void RaisePropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+
     }
 }

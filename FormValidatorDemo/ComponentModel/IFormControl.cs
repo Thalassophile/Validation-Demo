@@ -10,6 +10,8 @@ namespace FormValidatorDemo.ComponentModel
     {
         bool IsError { get; set; }
 
+        bool ValueInitialized { get; set; }
+
         bool IsMandatory { get; set; }
 
         string HeaderName { get; set; }

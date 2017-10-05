@@ -1,15 +1,17 @@
 ﻿using FormValidatorDemo.ComponentModel;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FormValidatorDemo.ViewModel
 {
     internal class DateTimeFieldInputViewModel : INotifyPropertyChanged, IFormControl
     {
+
+        public DateTimeFieldInputViewModel()
+        {
+            ValueInitialized = false;
+        }
+
         private bool isError;
         public bool IsError
         {
@@ -57,9 +59,10 @@ namespace FormValidatorDemo.ViewModel
         public DateTime SelectedDate
         {
             get { return selectedDate; }
-            set { selectedDate = value; RaisePropertyChanged(nameof(SelectedDate)); }
+            set { selectedDate = value; ValueInitialized = true; RaisePropertyChanged(nameof(SelectedDate)); }
         }
 
+        public bool ValueInitialized { get; set; }
 
         public void ValidateData()
         {

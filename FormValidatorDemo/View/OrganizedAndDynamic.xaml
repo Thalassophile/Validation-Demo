@@ -13,7 +13,7 @@
 
     <Page.Resources>
         <DataTemplate x:Name="FormFieldsTextTemplate" x:DataType="ViewModels:TextFieldInputControlViewModel">
-            <UserControl:TextFieldInputControl DataContext="{Binding}"/>
+            <UserControl:TextFieldInputControl DataContext="{Binding}" FocusLost="contentDataFinalized"/>
         </DataTemplate>
 
         <DataTemplate x:Name="FormFieldsDateTemplate" x:DataType="ViewModels:TextFieldInputControlViewModel">
@@ -24,7 +24,7 @@
     </Page.Resources>
 
     <Grid>
-        <ListView ItemsSource="{x:Bind FormFields,Mode=OneTime}" ItemTemplateSelector="{StaticResource FormTemplate}" IsItemClickEnabled="False" SelectionMode="None">
+        <ListView x:Name="FormListView" ItemsSource="{x:Bind FormFields,Mode=OneTime}" ItemTemplateSelector="{StaticResource FormTemplate}" IsItemClickEnabled="False" SelectionMode="None">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -37,7 +37,7 @@
 
 
 
-        <Button Content="Validate" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="20" Width="100" Click="ValidateContent"/>
+        <Button Content="Validate" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="20" Width="100" Click="ValidateContent" IsEnabled="{x:Bind IsValidateEnabled,Mode=OneWay}"/>
 
     </Grid>
 </Page>
