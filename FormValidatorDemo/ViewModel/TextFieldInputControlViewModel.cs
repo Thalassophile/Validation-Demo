@@ -44,13 +44,11 @@ namespace FormValidatorDemo.ViewModel
             get { return controlContent; }
             set
             {
-                if (string.IsNullOrEmpty(value))
-                    return;
-
                 if (value == controlContent)
                     return;
 
                 controlContent = value;
+                ValueInitialized = true;
                 RaisePropertyChanged(nameof(ControlContent));
             }
         }
@@ -79,6 +77,8 @@ namespace FormValidatorDemo.ViewModel
         public bool IsMandatory { get; set; }
 
         public string MatchingPattern { get; set; }
+
+        public bool ValueInitialized { get; set; } = false;
 
         public void ValidateData()
         {

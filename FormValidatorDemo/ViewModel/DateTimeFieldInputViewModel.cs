@@ -57,9 +57,10 @@ namespace FormValidatorDemo.ViewModel
         public DateTime SelectedDate
         {
             get { return selectedDate; }
-            set { selectedDate = value; RaisePropertyChanged(nameof(SelectedDate)); }
+            set { selectedDate = value; ValueInitialized = true; RaisePropertyChanged(nameof(SelectedDate)); }
         }
 
+        public bool ValueInitialized { get; set; } = false;
 
         public void ValidateData()
         {
