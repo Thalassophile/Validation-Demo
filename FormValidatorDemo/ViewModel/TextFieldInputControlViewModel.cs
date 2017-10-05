@@ -1,16 +1,16 @@
 ﻿using FormValidatorDemo.ComponentModel;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace FormValidatorDemo.ViewModel
 {
     public class TextFieldInputControlViewModel : INotifyPropertyChanged, IFormControl
     {
+        public TextFieldInputControlViewModel()
+        {
+            ValueInitialized = false;
+        }
+
         private bool isError;
         public bool IsError
         {
@@ -78,7 +78,7 @@ namespace FormValidatorDemo.ViewModel
 
         public string MatchingPattern { get; set; }
 
-        public bool ValueInitialized { get; set; } = false;
+        public bool ValueInitialized { get; set; }
 
         public void ValidateData()
         {
