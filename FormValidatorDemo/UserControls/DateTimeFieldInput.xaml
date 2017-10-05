@@ -1,0 +1,32 @@
+﻿<UserControl
+    x:Class="FormValidatorDemo.UserControls.DateTimeFieldInput"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:FormValidatorDemo.UserControls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="32"
+    d:DesignWidth="300"
+    xmlns:convert="using:FormValidatorDemo.Converters">
+
+    <UserControl.Resources>
+        <convert:BorderBrushOnErrorConverter x:Key="BorderBrushOnErrorConverter"/>
+        <convert:BoolToVisibility x:Key="BoolToVisibility"/>
+        <convert:DateTimeToDateTimeOffsetConverter x:Key="DateTimeToDateTimeOffsetconverter"/>
+    </UserControl.Resources>
+
+    <Grid LostFocus="control_LostFocus">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Text="{Binding HeaderName}" VerticalAlignment="Center"/>
+        <StackPanel Grid.Column="1">
+            <DatePicker  HorizontalAlignment="Stretch" Grid.Column="1" BorderBrush="{Binding IsError,Mode=OneWay,Converter={StaticResource BorderBrushOnErrorConverter}}" Date="{Binding SelectedDate, Converter={StaticResource DateTimeToDateTimeOffsetconverter}, Mode=TwoWay}"/>
+
+            <TextBlock Text="{Binding ErrorMessage,Mode=OneWay}" Foreground="Red" Grid.Column="1" HorizontalAlignment="Right" FontSize="12" VerticalAlignment="Center" Visibility="{Binding IsError,Mode=OneWay,Converter={StaticResource BoolToVisibility}}" Margin="5,0"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

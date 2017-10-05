@@ -1,0 +1,43 @@
+﻿<Page
+    x:Class="FormValidatorDemo.View.OrganizedAndDynamic"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:FormValidatorDemo.View"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    xmlns:UserControl="using:FormValidatorDemo.UserControls"
+    xmlns:ViewModels="using:FormValidatorDemo.ViewModel"
+    xmlns:Helpers="using:FormValidatorDemo.Helpers">
+
+
+    <Page.Resources>
+        <DataTemplate x:Name="FormFieldsTextTemplate" x:DataType="ViewModels:TextFieldInputControlViewModel">
+            <UserControl:TextFieldInputControl DataContext="{Binding}"/>
+        </DataTemplate>
+
+        <DataTemplate x:Name="FormFieldsDateTemplate" x:DataType="ViewModels:TextFieldInputControlViewModel">
+            <UserControl:DateTimeFieldInput DataContext="{Binding}"/>
+        </DataTemplate>
+
+        <Helpers:FormTemplateSelector x:Key="FormTemplate" TemplateWithDate="{StaticResource FormFieldsDateTemplate}" TemplateWithText="{StaticResource FormFieldsTextTemplate}"/>
+    </Page.Resources>
+
+    <Grid>
+        <ListView ItemsSource="{x:Bind FormFields,Mode=OneTime}" ItemTemplateSelector="{StaticResource FormTemplate}" IsItemClickEnabled="False" SelectionMode="None">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    <Setter Property="Margin" Value="0"/>
+                    <Setter Property="Padding" Value="0"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+        </ListView>
+
+
+
+
+        <Button Content="Validate" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="20" Width="100" Click="ValidateContent"/>
+
+    </Grid>
+</Page>
